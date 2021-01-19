@@ -1,0 +1,62 @@
+Año: 2020
+-------------------------------------
+Pais: Algeria 
+Mes: Enero Total: 320
+Mes: Febrero Total: 1606
+Mes: Marzo Total: 360
+Mes: Mayo Total: 640
+Total:  2926
+-------------------------------------
+Pais: Angola
+Mes: Junio Total: 1000
+Mes: Agosto Total: 693
+Total:  1693
+-------------------------------------
+Pais: Argentina
+Mes: Agosto Total: 747
+Mes: Septiembre Total: 1960
+Total:  2707
+-------------------------------------
+Pais: Armenia
+Mes: Noviembre Total: 2560
+Total:  2560
+-------------------------------------
+Pais: Bosnia and Herzegovina
+Mes: Diciembre Total: 3240
+Total:  3240
+-------------------------------------
+Pais: Brazil
+Mes: Febrero Total: 4000
+Mes: Marzo Total: 4840
+Mes: Mayo Total: 5760
+Total:  14600
+-------------------------------------
+Pais: Brunei Darussalam
+Mes: Junio Total: 6760
+Total:  6760
+-------------------------------------
+Pais: Cameroon
+Mes: Agosto Total: 7840
+Mes: Septiembre Total: 9000
+Total:  16840
+-------------------------------------
+Pais: Chile
+Mes: Noviembre Total: 5213
+Total:  5213
+-------------------------------------
+Pais: Taiwan (Province of China)
+Mes: Noviembre Total: 5027
+Mes: Diciembre Total: 11560
+Total:  16587
+-------------------------------------
+Pais: Denmark
+Mes: Febrero Total: 12960
+Mes: Marzo Total: 7388
+Total:  20348
+-------------------------------------
+Pais: Greece
+Mes: Marzo Total: 7052
+Mes: Mayo Total: 8197
+Total:  15249
+-------------------------------------
+Total: 108723
