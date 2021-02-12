@@ -4,14 +4,14 @@ analisis_covid: control.o files.o errors.o main.o input.o output.o names.o
 main.o: errors.h main.h main.c
 	gcc -c main.c
 
-corte_control.o: errors.h io.h main.h control.c 
+control.o: errors.h io.h main.h control.c 
 	gcc -c control.c
 	
-lectura.o: errors.h io.h main.h input.c
-	gcc -c lectura.c
+input.o: errors.h io.h main.h input.c
+	gcc -c input.c
 
-escritura.o: errors.h io.h main.h output.c
-	gcc -c escritura.c
+output.o: errors.h io.h main.h output.c
+	gcc -c output.c
 
 files.o: main.h errors.h files.c
 	gcc -c files.c
