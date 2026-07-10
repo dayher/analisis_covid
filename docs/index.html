@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis COVID - Corte de Control</title>
+    <meta name="description" content="Visualizador interactivo de análisis de datos de COVID-19 utilizando el algoritmo de Corte de Control escrito en C.">
+    <!-- Google Fonts: Outfit & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-glow">
+        <div class="glow-1"></div>
+        <div class="glow-2"></div>
+    </div>
+
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <span class="badge">ANSI C</span>
+                <h1>Análisis COVID-19 <span class="text-gradient">Corte de Control</span></h1>
+            </div>
+            <div class="header-links">
+                <a href="https://github.com/dayher/analisis_covid" target="_blank" class="btn btn-github">
+                    <i class="fab fa-github"></i> Ver en GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-card glass">
+            <div class="hero-content">
+                <h2>Presentación de Algoritmo & Análisis de Datos</h2>
+                <p>Este proyecto demuestra el procesamiento eficiente de grandes conjuntos de registros utilizando la técnica clásica de <strong>Corte de Control (Control Break)</strong> en lenguaje ANSI C. Originalmente desarrollado para la materia <em>Algoritmos y Programación I (FIUBA)</em>, ha sido optimizado y dotado de una interfaz interactiva moderna.</p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+                        <h3>ANSI C C99</h3>
+                        <p>Compilación estricta sin advertencias ni fugas de memoria.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-sort-amount-down"></i></div>
+                        <h3>Corte de Control</h3>
+                        <p>Agrupación jerárquica eficiente por país y mes.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-database"></i></div>
+                        <h3>Base de Datos Binaria</h3>
+                        <p>Acceso directo indexado a nombres de países desde archivos binarios.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Simulator Section -->
+        <section class="section-title">
+            <h2><i class="fas fa-project-diagram"></i> Simulador Interactivo del Algoritmo</h2>
+            <p>Visualiza paso a paso cómo el programa lee los registros ordenados desde el archivo CSV, detecta los cambios de clave (país y mes), acumula los subtotales y formatea la salida de la terminal.</p>
+        </section>
+
+        <section class="simulator-grid">
+            <!-- Left Panel: Input Records -->
+            <div class="card glass panel-records">
+                <div class="card-header">
+                    <h3><i class="fas fa-list-ol"></i> Registros de Entrada (Sorted CSV)</h3>
+                    <div class="controls-upload">
+                        <label for="csv-file" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-upload"></i> Subir CSV
+                        </label>
+                        <input type="file" id="csv-file" accept=".csv" style="display: none;">
+                        <button id="btn-reset-data" class="btn btn-sm btn-icon" title="Restaurar datos por defecto">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body records-container" id="records-list">
+                    <!-- Loaded dynamically via js -->
+                </div>
+            </div>
+
+            <!-- Middle Panel: Visual State & Flow Control -->
+            <div class="card glass panel-state">
+                <div class="card-header">
+                    <h3><i class="fas fa-sliders-h"></i> Control de Flujo y Variables</h3>
+                </div>
+                <div class="card-body">
+                    <div class="simulator-controls">
+                        <button id="btn-start" class="btn btn-primary"><i class="fas fa-play"></i> Iniciar</button>
+                        <button id="btn-step" class="btn btn-secondary" disabled><i class="fas fa-step-forward"></i> Paso a Paso</button>
+                        <button id="btn-auto" class="btn btn-secondary" disabled><i class="fas fa-forward"></i> Automático</button>
+                        <button id="btn-reset" class="btn btn-danger" disabled><i class="fas fa-stop"></i> Reiniciar</button>
+                    </div>
+
+                    <div class="speed-control-container">
+                        <label for="speed-range">Velocidad de simulación:</label>
+                        <input type="range" id="speed-range" min="100" max="1500" value="600" step="100">
+                        <span id="speed-value">600 ms</span>
+                    </div>
+
+                    <div class="variables-display">
+                        <h4>Estado de Variables de Control (C Structs)</h4>
+                        <div class="var-group">
+                            <h5>Registro Actual (<code>record_t reg</code>)</h5>
+                            <div class="var-grid">
+                                <div class="var-box">
+                                    <span class="var-label">ID País</span>
+                                    <span class="var-value" id="var-reg-country">-</span>
+                                </div>
+                                <div class="var-box">
+                                    <span class="var-label">Mes</span>
+                                    <span class="var-value" id="var-reg-month">-</span>
+                                </div>
+                                <div class="var-box text-highlight">
+                                    <span class="var-label">Casos</span>
+                                    <span class="var-value" id="var-reg-cases">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="var-group">
+                            <h5>Variables del Corte (<code>control_t ctr</code>)</h5>
+                            <div class="var-grid">
+                                <div class="var-box">
+                                    <span class="var-label">ID País</span>
+                                    <span class="var-value" id="var-ctr-country">-</span>
+                                </div>
+                                <div class="var-box">
+                                    <span class="var-label">Mes</span>
+                                    <span class="var-value" id="var-ctr-month">-</span>
+                                </div>
+                                <div class="var-box">
+                                    <span class="var-label">Año</span>
+                                    <span class="var-value" id="var-ctr-year">-</span>
+                                </div>
+                            </div>
+                            <div class="var-grid mt-2">
+                                <div class="var-box total-box">
+                                    <span class="var-label">Total Mes</span>
+                                    <span class="var-value text-accent" id="var-ctr-total-month">0</span>
+                                </div>
+                                <div class="var-box total-box">
+                                    <span class="var-label">Total País</span>
+                                    <span class="var-value text-accent" id="var-ctr-total-country">0</span>
+                                </div>
+                                <div class="var-box total-box">
+                                    <span class="var-label">Total Global</span>
+                                    <span class="var-value text-accent" id="var-ctr-total-global">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flowcharts logic representation -->
+                    <div class="logic-flow">
+                        <h4>Rama Ejecutada</h4>
+                        <div class="flow-step" id="flow-load">
+                            <span class="step-num">1</span> Carga Inicial (load_year)
+                        </div>
+                        <div class="flow-step" id="flow-break-country">
+                            <span class="step-num">2</span> Ruptura de País (reg.country != ctr.country)
+                        </div>
+                        <div class="flow-step" id="flow-break-month">
+                            <span class="step-num">3</span> Ruptura de Mes (reg.month != ctr.month)
+                        </div>
+                        <div class="flow-step" id="flow-accumulate">
+                            <span class="step-num">4</span> Acumulación de Registros (mismo país y mes)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Terminal Output -->
+            <div class="card glass panel-output">
+                <div class="card-header">
+                    <h3><i class="fas fa-terminal"></i> Archivo de Salida Generado</h3>
+                    <span class="terminal-status" id="term-status">Inactivo</span>
+                </div>
+                <div class="card-body terminal-body">
+                    <pre id="terminal-content">El archivo de salida aparecerá aquí a medida que avance el corte de control...</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Visualization Section -->
+        <section class="section-title">
+            <h2><i class="fas fa-chart-bar"></i> Visualización Gráfica de Datos</h2>
+            <p>Representación interactiva basada en los mismos datos de entrada, calculada en tiempo real para visualizar tendencias y agregaciones.</p>
+        </section>
+
+        <section class="chart-container-card card glass">
+            <div class="chart-selectors">
+                <button id="chart-btn-cases" class="btn btn-sm btn-primary">Casos Totales por País</button>
+                <button id="chart-btn-timeline" class="btn btn-sm btn-secondary">Evolución Temporal de Casos</button>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="covidChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Code and Specs Section -->
+        <section class="section-title">
+            <h2><i class="fas fa-code"></i> Arquitectura y Compilación Local</h2>
+            <p>Conoce los detalles de la implementación técnica y compila el código nativo en tu computadora.</p>
+        </section>
+
+        <section class="card glass specs-card">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="tab-architecture">Estructura</button>
+                <button class="tab-btn" data-tab="tab-makefile">Makefile</button>
+                <button class="tab-btn" data-tab="tab-compilation">Compilación local</button>
+            </div>
+            <div class="tabs-content">
+                <!-- Tab Architecture -->
+                <div class="tab-pane active" id="tab-architecture">
+                    <h3>Arquitectura de Archivos del Proyecto</h3>
+                    <p>El código fuente se divide modularmente siguiendo buenas prácticas de ingeniería de software en C:</p>
+                    <div class="specs-grid">
+                        <div class="spec-file-desc">
+                            <strong><i class="far fa-file-code"></i> main.c / main.h</strong>
+                            <p>Punto de entrada. Maneja los argumentos de la línea de comandos (`-in` y `-out`), apertura y cierre de archivos, e invoca al procesador.</p>
+                        </div>
+                        <div class="spec-file-desc">
+                            <strong><i class="far fa-file-code"></i> control.c</strong>
+                            <p>Contiene la lógica de la máquina de estados del Corte de Control (`cortes_de_control`) y las rutinas de ruptura por país y mes.</p>
+                        </div>
+                        <div class="spec-file-desc">
+                            <strong><i class="far fa-file-code"></i> input.c</strong>
+                            <p>Analizador léxico. Lee y procesa las líneas del CSV (delimitadas por comas), deserializando la marca de tiempo Unix y los casos.</p>
+                        </div>
+                        <div class="spec-file-desc">
+                            <strong><i class="far fa-file-code"></i> names.c / names.h</strong>
+                            <p>Encargado del mapeo de países. Lee directamente desde el archivo indexado binario `names.bin` buscando el offset `code * 150 - 1` con `fseek` para evitar cargar grandes bases de datos en RAM.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Makefile -->
+                <div class="tab-pane" id="tab-makefile">
+                    <h3>Sistema de Construcción Robusto</h3>
+                    <p>El proyecto incluye un <code>Makefile</code> moderno que compila con estándares estrictos y optimizaciones:</p>
+                    <pre class="code-block"><code>CC = gcc
+CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2
+TARGET = analisis_covid
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)</code></pre>
+                </div>
+
+                <!-- Tab Compilation -->
+                <div class="tab-pane" id="tab-compilation">
+                    <h3>Cómo compilar y ejecutar en tu terminal</h3>
+                    <p>Clona el repositorio y sigue los siguientes comandos:</p>
+                    <pre class="code-block"><code># 1. Clonar el repositorio
+git clone https://github.com/dayher/analisis_covid.git
+cd analisis_covid
+
+# 2. Generar el archivo binario indexado names.bin desde el CSV
+python3 scripts/generate_names.py
+
+# 3. Compilar el programa C
+make
+
+# 4. Ejecutar indicando la entrada y la salida
+./analisis_covid -in data.csv -out output.txt
+
+# 5. Ver los resultados procesados
+cat output.txt</code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-container">
+            <p>&copy; 2026 dayher. Desarrollado como proyecto de portafolio.</p>
+            <p>Verificado con CI y Pruebas Automáticas.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

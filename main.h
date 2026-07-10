@@ -1,3 +1,6 @@
+#ifndef MAIN_H_
+#define MAIN_H_
+
 #include <stdio.h>
 #include "errors.h"
 #include <stdlib.h>
@@ -11,3 +14,5 @@ status_t cortes_de_control(FILE *fi, FILE *fo);
 status_t open_files(FILE **fi, FILE **fo, char *path_fi, char *path_fo);
 status_t close_files(FILE **fi, FILE **fo);
 status_t validate_arguments(int argc, char *argv[], char **path_fi, char **path_fo);
+
+#endif /* MAIN_H_ */

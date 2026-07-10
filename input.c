@@ -30,12 +30,14 @@ status_t read_record(FILE * fi, record_t * reg)
 	
 	if(fgets(line, MAX_LINE+2 ,fi) != NULL)
 	{
-		
 		if( (st = split(line,DELIMITTER,&len,&arr)) != OK) 
 			return st;
 		
 		if(len!=MAX_TOKENS_RECORD) 
+		{
+			str_delete(&arr, len);
 			return ERROR_CORRUPT_FILE;
+		}
 		
 		date= (uint)strtol(arr[TOKEN_RECORD_DATE],NULL,BASE);
 		reg -> month = ((p_date=localtime(&date))->tm_mon);
@@ -43,8 +45,9 @@ status_t read_record(FILE * fi, record_t * reg)
 		reg -> cases = (uint)strtol(arr[TOKEN_RECORD_CASES],NULL,BASE);
 		
 		str_delete(&arr,MAX_TOKENS_RECORD);
+		return OK;
 	}
-	return OK;
+	return STATUS_EOF;
 }
 
 status_t load_year(FILE * fi, control_t *ctr, record_t * reg)

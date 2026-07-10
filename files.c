@@ -28,8 +28,7 @@ status_t close_files(FILE **fi, FILE **fo)
 
 status_t validate_arguments(int argc, char *argv[], char ** path_fi, char **path_fo)
 {
-	char *tmp;
-	size_t i;
+	int i;
 	int args_to_parse;
 
 	if(path_fi == NULL || path_fo == NULL || argv == NULL)

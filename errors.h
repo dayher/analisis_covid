@@ -1,3 +1,6 @@
+#ifndef ERRORS_H_
+#define ERRORS_H_
+
 #define USR_MSG_ERROR_PROGRAM_INVOCATION 	"Error de invocación del programa, sintáxis: -(in/out) <path> -(in/out) <path>"
 #define USR_MSG_ERROR_NULL_POINTER		"Error de dirección por puntero nulo"
 #define USR_MSG_ERROR_OPENING_INPUT_FILE 	"Error de apertura archivo de entrada"
@@ -15,7 +18,10 @@ typedef enum {
 	ERROR_DISK_SPACE,
 	ERROR_MEMORY,
 	ERROR_CORRUPT_FILE,
+	STATUS_EOF,
 	MAX_ERRORS
 } status_t;
 
 status_t show_error(status_t);
+
+#endif /* ERRORS_H_ */

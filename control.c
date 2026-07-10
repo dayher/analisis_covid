@@ -15,10 +15,18 @@ status_t cortes_de_control(FILE* fi, FILE *fo)
 	p_ctr = &ctr;
 	ctr.targetFile=fo;
 
-	if( (st = load_year(fi, p_ctr, p_reg)) != OK) return st;
+	st = load_year(fi, p_ctr, p_reg);
+	if(st != OK)
+	{
+		if(st == STATUS_EOF)
+		{
+			return OK;
+		}
+		return st;
+	}
 	print_year(p_ctr);	
 
-	while(!feof(fi))
+	while(1)
 	{
 		if( reg.country != ctr.country)
 		{
@@ -36,8 +44,15 @@ status_t cortes_de_control(FILE* fi, FILE *fo)
 			ctr.total_global+=reg.cases;	
 		}
 	
-		if( (st = read_record(fi,p_reg)) != OK) return st;
-	
+		st = read_record(fi, p_reg);
+		if(st == STATUS_EOF)
+		{
+			break;
+		}
+		if(st != OK)
+		{
+			return st;
+		}
 	}	
 	close_global(p_ctr);
 	return OK;

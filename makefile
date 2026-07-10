@@ -1,23 +1,24 @@
-analisis_covid: control.o files.o errors.o main.o input.o output.o names.o
-	gcc control.o  files.o errors.o main.o input.o output.o names.o -o analisis_covid
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2
+TARGET = analisis_covid
+SRCS = main.c control.c files.c errors.c input.c output.c names.c
+OBJS = $(SRCS:.c=.o)
+HEADERS = main.h errors.h io.h names.h
 
-main.o: errors.h main.h main.c
-	gcc -c main.c
+.PHONY: all clean fclean re
 
-control.o: errors.h io.h main.h control.c 
-	gcc -c control.c
-	
-input.o: errors.h io.h main.h input.c
-	gcc -c input.c
+all: $(TARGET)
 
-output.o: errors.h io.h main.h output.c
-	gcc -c output.c
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
 
-files.o: main.h errors.h files.c
-	gcc -c files.c
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-errors.o: errors.h errors.c
-	gcc -c errors.c
+clean:
+	rm -f $(OBJS) output.txt output_new.txt
 
-names.o: io.h names.c
-	gcc -c names.c
+fclean: clean
+	rm -f $(TARGET)
+
+re: fclean all

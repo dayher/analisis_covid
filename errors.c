@@ -26,6 +26,8 @@ status_t show_error(status_t st)
 	case ERROR_CORRUPT_FILE:
 		fprintf(stderr,"%s\n",USR_MSG_ERROR_CORRUPT_FILE);
 		break;
+	case STATUS_EOF:
+		break;
 	default: fprintf(stderr,"\n");
 	}
 	return st;

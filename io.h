@@ -1,3 +1,6 @@
+#ifndef IO_H_
+#define IO_H_
+
 #include "main.h"
 typedef unsigned long ul;
 typedef unsigned int uint;
@@ -20,10 +23,13 @@ typedef struct {
 } control_t ; 
 
 
+#include "names.h"
+
 status_t read_record(FILE *fi, record_t *reg);
 status_t load_year(FILE *fi, control_t *ctr, record_t *reg);
-void get_name(char **name, unsigned int code );
 
 void print_month(control_t *ctr);
 void print_country(control_t *ctr);
 void print_year(control_t *ctr);
+
+#endif /* IO_H_ */

@@ -1,0 +1,19 @@
+# Compiled binaries and objects
+analisis_covid
+*.o
+
+# Temporary outputs and test logs
+output_new.txt
+output_test.txt
+output.txt
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
